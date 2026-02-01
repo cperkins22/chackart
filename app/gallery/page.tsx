@@ -4,13 +4,11 @@ import { useState } from "react";
 import Link from "next/link";
 import { X } from "lucide-react";
 
-// 1. Define the type for your painting objects
 interface Painting {
   src: string;
   title: string;
 }
 
-// 2. Your data list (typed as an array of Paintings)
 const paintings: Painting[] = [
   { src: "/images/painting1.jpg", title: "Untitled" },
   { src: "/images/painting2.jpg", title: "Untitled" },
@@ -25,24 +23,22 @@ const paintings: Painting[] = [
 ];
 
 export default function GalleryPage() {
-  // 3. Typed state for the selected painting
+
   const [selectedPainting, setSelectedPainting] = useState<Painting | null>(null);
   const [isZoomed, setIsZoomed] = useState(false);
 
-  // 4. Open Modal Function (Typed)
   const openModal = (painting: Painting) => {
     setSelectedPainting(painting);
     setIsZoomed(false);
     if (typeof window !== "undefined") {
-      document.body.style.overflow = "hidden"; // Prevent background scrolling
+      document.body.style.overflow = "hidden";
     }
   };
 
-  // 5. Close Modal Function
   const closeModal = () => {
     setSelectedPainting(null);
     if (typeof window !== "undefined") {
-      document.body.style.overflow = "auto"; // Restore background scrolling
+      document.body.style.overflow = "auto";
     }
   };
 
