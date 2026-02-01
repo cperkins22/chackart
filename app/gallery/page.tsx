@@ -1,19 +1,51 @@
-import Link from "next/link";
+"use client";
 
-const paintings = [
-  "/images/painting1.jpg",
-  "/images/painting2.jpg",
-  "/images/painting3.jpg",
-  "/images/painting4.jpg",
-  "/images/painting5.jpg",
-  "/images/painting6.jpg",
-  "/images/painting7.jpg",
-  "/images/painting8.jpg",
-  "/images/painting9.jpg",
-  "/images/painting10.jpg",
+import { useState } from "react";
+import Link from "next/link";
+import { X } from "lucide-react";
+
+// 1. Define the type for your painting objects
+interface Painting {
+  src: string;
+  title: string;
+}
+
+// 2. Your data list (typed as an array of Paintings)
+const paintings: Painting[] = [
+  { src: "/images/painting1.jpg", title: "Untitled" },
+  { src: "/images/painting2.jpg", title: "Untitled" },
+  { src: "/images/painting3.jpg", title: "Untitled" },
+  { src: "/images/painting4.jpg", title: "Untitled" },
+  { src: "/images/painting5.jpg", title: "Untitled" },
+  { src: "/images/painting6.jpg", title: "Untitled" },
+  { src: "/images/painting7.jpg", title: "Untitled" },
+  { src: "/images/painting8.jpg", title: "Untitled" },
+  { src: "/images/painting9.jpg", title: "Untitled" },
+  { src: "/images/painting10.jpg", title: "Untitled" },
 ];
 
 export default function GalleryPage() {
+  // 3. Typed state for the selected painting
+  const [selectedPainting, setSelectedPainting] = useState<Painting | null>(null);
+  const [isZoomed, setIsZoomed] = useState(false);
+
+  // 4. Open Modal Function (Typed)
+  const openModal = (painting: Painting) => {
+    setSelectedPainting(painting);
+    setIsZoomed(false);
+    if (typeof window !== "undefined") {
+      document.body.style.overflow = "hidden"; // Prevent background scrolling
+    }
+  };
+
+  // 5. Close Modal Function
+  const closeModal = () => {
+    setSelectedPainting(null);
+    if (typeof window !== "undefined") {
+      document.body.style.overflow = "auto"; // Restore background scrolling
+    }
+  };
+
   return (
     <div className="relative min-h-screen bg-white text-black">
       
@@ -30,29 +62,23 @@ export default function GalleryPage() {
       {/* Page content */}
       <div className="relative">
 
-        {/* HERO SECTION (Updated for Mobile) */}
+        {/* HERO SECTION */}
         <section className="px-6 pt-12">
           <div className="mx-auto max-w-6xl">
-            {/* Added flex-col for mobile stacking and re-ordering logic */}
             <div className="flex flex-col items-center justify-between gap-8 md:flex-row md:gap-0">
               
-              {/* LEFT BUTTONS - Order 2 on mobile, 1 on desktop */}
+              {/* LEFT BUTTONS */}
               <div className="flex gap-4 order-2 md:order-1">
                 <Link href="/" className="btn-flip" data-back="About" data-front="About" />
-                <Link
-                  href="/gallery"
-                  className="btn-flip active"
-                  data-back="Gallery"
-                  data-front="Gallery"
-                />
+                <Link href="/gallery" className="btn-flip active" data-back="Gallery" data-front="Gallery" />
               </div>
 
-              {/* TITLE - Order 1 on mobile, 2 on desktop */}
+              {/* TITLE */}
               <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-center order-1 md:order-2">
                 C.Hackett Art
               </h1>
 
-              {/* RIGHT BUTTONS - Order 3 on all */}
+              {/* RIGHT BUTTONS */}
               <div className="flex gap-4 order-3">
                 <Link href="/services" className="btn-flip" data-back="Services" data-front="Services" />
                 <Link href="/contact" className="btn-flip" data-back="Contact" data-front="Contact" />
@@ -64,21 +90,71 @@ export default function GalleryPage() {
 
         {/* GALLERY SECTION */}
         <section className="mx-auto max-w-6xl px-6 py-12">
-          {/* Changed gap-0 to gap-4 for better aesthetics */}
           <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4">
-            {paintings.map((src, index) => (
-              <img
-                key={index}
-                src={src}
-                alt={`Painting ${index + 1}`}
-                // Added 'mb-4' for vertical spacing between images
-                className="w-full mb-4 hover:scale-105 transition-transform duration-300 break-inside-avoid shadow-sm"
-              />
+            {paintings.map((painting, index) => (
+              <div key={index} className="mb-4 break-inside-avoid">
+                <img
+                  src={painting.src}
+                  alt={painting.title}
+                  onClick={() => openModal(painting)}
+                  className="w-full cursor-pointer hover:scale-105 transition-transform duration-300 shadow-sm hover:shadow-lg"
+                />
+              </div>
             ))}
           </div>
         </section>
 
       </div>
+
+      {/* FULL SCREEN MODAL */}
+      {selectedPainting && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4"
+          onClick={closeModal}
+        >
+          
+          {/* Close Button */}
+          <button 
+            onClick={closeModal}
+            className="absolute top-6 right-6 text-white hover:text-gray-300 z-50 p-2"
+          >
+            <X size={40} />
+          </button>
+
+          {/* Image Container */}
+          <div 
+            className="relative max-h-screen w-full max-w-5xl flex flex-col items-center justify-center"
+            onClick={(e) => e.stopPropagation()} // Prevent closing when clicking the image area
+          >
+            
+            {/* Main Image */}
+            <div className="relative overflow-hidden cursor-zoom-in">
+              <img
+                src={selectedPainting.src}
+                alt={selectedPainting.title}
+                onClick={() => setIsZoomed(!isZoomed)}
+                className={`
+                  transition-transform duration-300 ease-in-out
+                  max-h-[80vh] w-auto object-contain
+                  ${isZoomed ? "scale-150 cursor-zoom-out" : "scale-100 cursor-zoom-in"}
+                `}
+              />
+            </div>
+
+            {/* Title Caption */}
+            <div className="mt-6 text-center">
+              <h3 className="text-2xl font-light text-white tracking-widest uppercase">
+                {selectedPainting.title}
+              </h3>
+              <p className="text-gray-400 text-sm mt-2">
+                Click image to zoom
+              </p>
+            </div>
+
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

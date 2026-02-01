@@ -56,7 +56,7 @@ export default function ContactPage() {
               <div className="flex flex-col items-center text-center group cursor-pointer">
                   <h2 className="text-2xl font-semibold mb-6">Instagram</h2>
                   <a
-                    href="https://www.instagram.com/c.hac.art_c.hac.art/"
+                    href="https://www.instagram.com/c.hackett.art.c.hackett.art/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center justify-center w-40 h-40 bg-zinc-50 border border-zinc-200 rounded-full shadow-sm group-hover:scale-110 group-hover:shadow-md transition-all duration-300"
