@@ -146,9 +146,6 @@ export default function GalleryPage() {
               <h3 className="text-2xl font-light text-white tracking-widest uppercase">
                 {selectedPainting.title}
               </h3>
-              <p className="text-gray-400 text-sm mt-2">
-                Click image to zoom
-              </p>
             </div>
 
           </div>
