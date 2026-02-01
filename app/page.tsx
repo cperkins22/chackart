@@ -21,22 +21,27 @@ export default function Home() {
         <section className="px-6 pt-12">
           <div className="mx-auto max-w-6xl">
 
-            {/* TOP ROW: buttons + title */}
-            <div className="flex items-center justify-between">
+            {/* TOP ROW: Modified for Mobile */}
+            {/* 1. Changed 'flex' to 'flex-col' (mobile) and 'md:flex-row' (desktop) */}
+            {/* 2. Added 'gap-8' so they don't touch when stacked */}
+            <div className="flex flex-col items-center justify-between gap-8 md:flex-row md:gap-0">
 
               {/* LEFT BUTTONS */}
-              <div className="flex gap-4">
+              {/* Added 'order-2 md:order-1': On mobile this is 2nd, on Desktop it's 1st */}
+              <div className="flex gap-4 order-2 md:order-1">
                 <Link href="/" className="btn-flip active" data-back="About" data-front="About" />
                 <Link href="/gallery" className="btn-flip" data-back="Gallery" data-front="Gallery" />
               </div>
 
               {/* TITLE */}
-              <h1 className="text-4xl font-semibold tracking-tight text-center">
-                C.Hackett.Art C.Hackett Art
+              {/* Added 'order-1 md:order-2': On mobile this is 1st (top), on Desktop it's 2nd (center) */}
+              <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-center order-1 md:order-2">
+                 C.Hackett Art
               </h1>
 
               {/* RIGHT BUTTONS */}
-              <div className="flex gap-4">
+              {/* Added 'order-3': Stays 3rd (bottom/right) on all screens */}
+              <div className="flex gap-4 order-3">
                 <Link href="/services" className="btn-flip" data-back="Services" data-front="Services" />
                 <Link href="/contact" className="btn-flip" data-back="Contact" data-front="Contact" />
               </div>
@@ -46,7 +51,7 @@ export default function Home() {
         </section>
 
 
-        {/* SECTION 1 */}
+        {/* SECTION 1 - Already looks good! */}
         <section className="mx-auto max-w-6xl px-6 py-24">
           <div className="flex flex-col items-center gap-12 md:flex-row">
 
