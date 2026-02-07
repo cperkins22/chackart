@@ -70,8 +70,9 @@ export default function GalleryPage() {
               </div>
 
               {/* TITLE */}
-              <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-center order-1 md:order-2">
-                C.Hackett Art
+              <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-center order-1 md:order-2 flex flex-col items-center leading-none">
+                <span>C.Hackett Art</span>
+                <span>C.Hackett Art</span>
               </h1>
 
               {/* RIGHT BUTTONS */}

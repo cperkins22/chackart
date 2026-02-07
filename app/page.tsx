@@ -35,8 +35,9 @@ export default function Home() {
 
               {/* TITLE */}
               {/* Added 'order-1 md:order-2': On mobile this is 1st (top), on Desktop it's 2nd (center) */}
-              <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-center order-1 md:order-2">
-                 C.Hackett Art
+              <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-center order-1 md:order-2 flex flex-col items-center leading-none">
+                <span>C.Hackett Art</span>
+                <span>C.Hackett Art</span>
               </h1>
 
               {/* RIGHT BUTTONS */}
